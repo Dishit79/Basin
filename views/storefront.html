@@ -1,0 +1,100 @@
+<% layout('layout.html', {page: 'Storefront'}) %>
+
+
+<div class="hero min-h-screen bg-base-200">
+  <div class="hero-content text-center">
+    <div class="max-w-md">
+      <h1 class="text-5xl font-bold"><%= it.store.storeName %></h1>
+      <h3 class="text-1xl">By <%= it.store.owner.username %></h3>
+      <p class="py-6"><%= it.store.storeInfo.info %></p>
+      <button class="btn btn-primary">Get Shopping!</button>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto mt-6 center overflow-auto">
+
+  <% if (it.store.owner.id == it.user.id ) { %>
+  <div class="stats center shadow">
+
+    <div class="stat">
+      <div class="stat-figure text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+          <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </svg>
+      </div>
+      <div class="stat-title">Store Sales</div>
+      <div class="stat-value text-primary"><%= it.sale.all.length %></div>
+      <div class="stat-desc">+<%= it.sale.unseen.length %> new sales</div>
+    </div>
+
+
+    <div class="stat">
+      <label for="my-modal-4" class="btn modal-button">Add Item</label>
+      <input type="checkbox" id="my-modal-4" class="modal-toggle" />
+      <label for="my-modal-4" class="modal cursor-pointer">
+        <label class="modal-box relative" for="">
+          <form action="/api/item/create" method="post">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Item Name</span>
+              </label>
+              <input type="text" placeholder="Store Name" name="itemName" class="input input-bordered w-full max-w-xs" />
+              <label class="label">
+                <span class="label-text">Item Description</span>
+              </label>
+              <textarea class="textarea textarea-bordered" name="itemDesc" placeholder="Store Info"></textarea>
+              <label class="label">
+                <span class="label-text">Price</span>
+              </label>
+              <input type="number" placeholder="Store Name" name="itemPrice" class="input input-bordered w-full max-w-xs" />
+              <input type="hidden"name="storeId" value="<%= it.store.id %>"/>
+              <input type="hidden"name="storeName" value="<%= it.store.storeName %>"/>
+              <input type="hidden"name="username" value="<%= it.store.owner.username %>"/>
+              <input type="hidden"name="userId" value="<%= it.store.owner.id %>"/>
+              <div class="form-control mt-6">
+                <button class="btn btn-primary">Create Item!</button>
+              </div>
+            </div>
+          </form>
+        </label>
+      </label>
+    </div>
+
+
+  </div>
+  <% } %>
+
+  <% it.items.forEach(function(item) {%>
+    <div class="card bg-primary text-primary-content mt-6">
+        <div class="card-body">
+          <h2 class="card-title"><%= item.itemName %></h2>
+          <p>Price: <%= item.itemPrice %></p>
+          <div class="card-actions justify-end">
+            <% if (!(it.store.owner.id == it.user.id)) { %>
+            <form action="/api/transaction/purchase/<%= item.id %>" method="post">
+            <button class="btn">Buy Now</button>
+            <input type="hidden"name="storeId" value="<%= it.store.id %>"/>
+            <input type="hidden"name="storeName" value="<%= it.store.storeName %>"/>
+            <input type="hidden"name="itemId" value="<%= item.id %>"/>
+            <input type="hidden"name="itemName" value="<%= item.itemName %>"/>
+            <input type="hidden"name="sellerName" value="<%= it.store.owner.username %>"/>
+            <input type="hidden"name="sellerId" value="<%= it.store.owner.id %>"/>
+            <input type="hidden"name="purchaserId" value="<%= it.user.id %>"/>
+            <input type="hidden"name="purchaserName" value="<%= it.user.username %>"/>
+            <input type="hidden"name="price" value="<%= item.itemPrice %>"/>
+            </form>
+            <% } %>
+            <% if (it.store.owner.id == it.user.id) { %>
+              <form action="/api/item/delete/<%= item.id %>" method="post">
+                <button class="btn">Delete</button>
+                <input type="hidden"name="storeId" value="<%= it.store.id %>"/>
+              </form>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+
+
+</div>

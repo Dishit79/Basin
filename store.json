@@ -1,0 +1,38 @@
+[
+	{
+		"id": "b64e4fdd-3c57-46dc-9100-3dca5b37f674",
+		"storeName": "Expo",
+		"owner": {
+			"username": "Nuzhat Ahmed",
+			"id": "25276a81-3d21-45a7-9e0e-ac28af35bdbe"
+		},
+		"storeInfo": {
+			"info": "We sell amazing items for example art supplies fmvhjbskcbkc"
+		},
+		"type": 1
+	},
+	{
+		"id": "9430c1cb-82d6-4e23-8627-f41c98637191",
+		"storeName": "My Store",
+		"owner": {
+			"username": "Nawaf Ahmed",
+			"id": "4cb2572e-e164-41bd-9178-2e935b9dabb5"
+		},
+		"storeInfo": {
+			"info": "Best store in the world trust me \r\n"
+		},
+		"type": 1
+	},
+	{
+		"id": "22a4e15c-93bc-4c0f-8860-e84483f3594b",
+		"storeName": "Another store",
+		"owner": {
+			"username": "Nawaf Ahmed",
+			"id": "4cb2572e-e164-41bd-9178-2e935b9dabb5"
+		},
+		"storeInfo": {
+			"info": "Even better store than the other one. Pinky promise"
+		},
+		"type": 1
+	}
+]

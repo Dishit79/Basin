@@ -1,0 +1,83 @@
+<% layout('layout.html', {page: 'Store'})%>
+
+<div class="container mx-auto mt-6 center overflow-auto">
+  <div class="stats shadow">
+
+    <div class="stat">
+      <div class="stat-figure text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+      </div>
+      <div class="stat-title">Total Sales</div>
+      <div class="stat-value text-primary"><%= it.sale.all.length %></div>
+      <div class="stat-desc"><%= it.sale.seen.length %> seen sales</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+      </div>
+      <div class="stat-title">New Sales</div>
+      <div class="stat-value text-secondary"><%= it.sale.unseen.length %></div>
+      <div class="stat-desc">Go check them out</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-figure text-secondary">
+      </div>
+      <div class="stat-value">$<%= it.profits.profit %></div>
+      <div class="stat-title">Total profit</div>
+    </div>
+
+    <div class="stat">
+      <label for="my-modal-4" class="btn modal-button">Create a Store</label>
+      <a href="/sales"><button class="mt-2 btn modal-button">Check Sales &nbsp&nbsp&nbsp&nbsp</button></a>
+      <input type="checkbox" id="my-modal-4" class="modal-toggle" />
+      <label for="my-modal-4" class="modal cursor-pointer">
+        <label class="modal-box relative" for="">
+          <form action="/api/store/create" method="post">
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Store Name</span>
+              </label>
+              <input type="text" placeholder="Store Name" name="storeName" class="input input-bordered w-full max-w-xs" />
+              <label class="label">
+                <span class="label-text">Store Information</span>
+              </label>
+              <textarea class="textarea textarea-bordered" name="storeInfo" placeholder="Store Info"></textarea>
+                          <div class="form-control mt-6">
+                <button class="btn btn-primary">Create Store!</button>
+              </div>
+            </div>
+          </form>
+        </label>
+      </label>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto mt-10 center overflow-auto">
+
+
+  <% it.stores.forEach(function(store) {%>
+
+    <div class="card bg-base-400 shadow-xl border border-base-400 hover:bg-gray-300" onclick="location.href='/stores/<%= store.id %>'">
+      <div class="card-body">
+        <h2 class="card-title"><%= store.storeName %></h2>
+        <p><%= store.storeInfo.info %> <br></p>
+        <div class="card-actions justify-start">
+          <div class="badge badge-outline"><%= store.owner.username %></div>
+        </div>
+        <div class="card-actions justify-end">
+          <a href="/stores/<%= store.id %>"><button class="btn btn-primary">Vist Store</button></a>
+          <% if (store.owner.id == it.user.id ) { %>
+            <form action="/api/store/delete/<%= store.id %>" method="post">
+              <a href="/api/store/delete/"<%= store.id %>"><button class="btn btn-primary">Delete</button></a>
+            </form>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+  <% }) %>
+
+</div>
